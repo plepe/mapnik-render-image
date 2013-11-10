@@ -18,6 +18,8 @@ def usage():
     print('        Render the map from the specified bounding box as')
     print('        min_lon,min_lat,max_lon,max_lat, e.g.')
     print('        -6.5,49.5,2.1,59')
+    print('    -s <size>, --bounds=<size>')
+    print('        Set the resulting image size to <size>, e.g. 1024x1024')
 
 # Set up projections
 # spherical mercator (most common target map projection of osm data imported with osm2pgsql)
@@ -42,8 +44,12 @@ if __name__ == "__main__":
 # Default bounding box
     bounds = (-6.5, 49.5, 2.1, 59)
 
+# Default size
+    imgx = 1024
+    imgy = 1024
+
     try:
-	opts, args = getopt.getopt(sys.argv[1:], 'm:b:', ["map-file=", "bounds="])
+	opts, args = getopt.getopt(sys.argv[1:], 'm:b:s:', ["map-file=", "bounds=", "size="])
     except getopt.GetoptError as err:
 	print(err)
 	usage()
@@ -54,6 +60,10 @@ if __name__ == "__main__":
 	    mapfile = a;
 	elif o in ("-b", "--bounds"):
 	    bounds = map(float, a.split(","))
+	elif o in ("-s", "--size"):
+	    a = a.split("x");
+	    imgx = int(a[0]);
+	    imgy = int(a[1]);
 	else:
 	    usage()
 	    sys.exit()
@@ -62,10 +72,6 @@ if __name__ == "__main__":
     print("Using bounds: " + repr(bounds))
 
     map_uri = "image.png"
-
-    z = 10
-    imgx = 500 * z
-    imgy = 1000 * z
 
     m = mapnik.Map(imgx,imgy)
     mapnik.load_map(m,mapfile)
