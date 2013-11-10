@@ -24,6 +24,10 @@ def usage():
     print('        Render the image into the specified file. The image type (png, svg, pdf)')
     print('        will be recognised from the specified extension,')
     print('        e.g. image.png (default)')
+    print('    --aspect-fix-mode=[GROW_BBOX|GROW_CANVAS|SHRINK_BBOX|SHRINK_CANVAS]')
+    print('        Mapnik internally will fix the aspect ratio of the bounding box to')
+    print('        match the target image width and height but it can also change the')
+    print('        target image size to match the bounding box. Default: GROW_BBOX')
 
 # Set up projections
 # spherical mercator (most common target map projection of osm data imported with osm2pgsql)
@@ -55,8 +59,11 @@ if __name__ == "__main__":
 # Default output file name
     map_uri = "image.png"
 
+# Aspect fix mode
+    aspect_fix_mode = "GROW_BBOX"
+
     try:
-	opts, args = getopt.getopt(sys.argv[1:], 'm:b:s:o:', ["map-file=", "bounds=", "size=", "output="])
+	opts, args = getopt.getopt(sys.argv[1:], 'm:b:s:o:', ["map-file=", "bounds=", "size=", "output=","aspect-fix-mode="])
     except getopt.GetoptError as err:
 	print(err)
 	usage()
@@ -73,6 +80,12 @@ if __name__ == "__main__":
 	    imgy = int(a[1]);
 	elif o in ("-o", "--output"):
 	    map_uri = a;
+	elif o in ("--aspect-fix-mode"):
+	    if a in ("GROW_BBOX", "GROW_CANVAS", "SHRINK_BBOX", "SHRINK_CANVAS"):
+		aspect_fix_mode = a;
+	    else:
+		usage()
+		sys.exit()
 	else:
 	    usage()
 	    sys.exit()
@@ -104,7 +117,15 @@ if __name__ == "__main__":
     # This behavior is controlled by setting the `m.aspect_fix_mode`
     # and defaults to GROW_BBOX, but you can also change it to alter
     # the target image size by setting aspect_fix_mode to GROW_CANVAS
-    #m.aspect_fix_mode = mapnik.GROW_CANVAS
+    if aspect_fix_mode == "GROW_BBOX":
+	m.aspect_fix_mode = mapnik.aspect_fix_mode.GROW_BBOX
+    elif aspect_fix_mode == "GROW_CANVAS":
+	m.aspect_fix_mode = mapnik.aspect_fix_mode.GROW_CANVAS
+    elif aspect_fix_mode == "SHRINK_BBOX":
+	m.aspect_fix_mode = mapnik.aspect_fix_mode.SHRINK_BBOX
+    else:
+	m.aspect_fix_mode = mapnik.aspect_fix_mode.SHRINK_CANVAS
+
     # Note: aspect_fix_mode is only available in Mapnik >= 0.6.0
     m.zoom_to_box(merc_bbox)
     
