@@ -31,6 +31,8 @@ def usage():
     print('    --scale=<scale_denominator>')
     print('        Render image at a specified scale denominator. This setting has')
     print('        precedence over the image target size.')
+    print('    -h, --help')
+    print('        Show usage information')
 
 # Set up projections
 # spherical mercator (most common target map projection of osm data imported with osm2pgsql)
@@ -68,8 +70,11 @@ if __name__ == "__main__":
 # Adapt scale denominator
     scale_denom = 0
 
+#
+# Process parameters
+#
     try:
-	opts, args = getopt.getopt(sys.argv[1:], 'm:b:s:o:', ["map-file=", "bounds=", "size=", "output=","aspect-fix-mode=","scale="])
+	opts, args = getopt.getopt(sys.argv[1:], 'm:b:s:o:h', ["map-file=", "bounds=", "size=", "output=","aspect-fix-mode=","scale=","help"])
     except getopt.GetoptError as err:
 	print(err)
 	usage()
@@ -94,6 +99,9 @@ if __name__ == "__main__":
 		sys.exit()
 	elif o in ("--scale"):
 	    scale_denom = float(a)
+	elif o in ("-h", "--help"):
+	    usage()
+	    sys.exit()
 	else:
 	    usage()
 	    sys.exit()
