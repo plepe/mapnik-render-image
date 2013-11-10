@@ -28,6 +28,9 @@ def usage():
     print('        Mapnik internally will fix the aspect ratio of the bounding box to')
     print('        match the target image width and height but it can also change the')
     print('        target image size to match the bounding box. Default: GROW_BBOX')
+    print('    --scale=<scale_denominator>')
+    print('        Render image at a specified scale denominator. This setting has')
+    print('        precedence over the image target size.')
 
 # Set up projections
 # spherical mercator (most common target map projection of osm data imported with osm2pgsql)
@@ -62,8 +65,11 @@ if __name__ == "__main__":
 # Aspect fix mode
     aspect_fix_mode = "GROW_BBOX"
 
+# Adapt scale denominator
+    scale_denom = 0
+
     try:
-	opts, args = getopt.getopt(sys.argv[1:], 'm:b:s:o:', ["map-file=", "bounds=", "size=", "output=","aspect-fix-mode="])
+	opts, args = getopt.getopt(sys.argv[1:], 'm:b:s:o:', ["map-file=", "bounds=", "size=", "output=","aspect-fix-mode=","scale="])
     except getopt.GetoptError as err:
 	print(err)
 	usage()
@@ -86,6 +92,8 @@ if __name__ == "__main__":
 	    else:
 		usage()
 		sys.exit()
+	elif o in ("--scale"):
+	    scale_denom = float(a)
 	else:
 	    usage()
 	    sys.exit()
@@ -129,6 +137,13 @@ if __name__ == "__main__":
     # Note: aspect_fix_mode is only available in Mapnik >= 0.6.0
     m.zoom_to_box(merc_bbox)
     
+    # If a scale denominator is specified
+    if scale_denom:
+        # Get current scale denom, calculate necessary change
+	scale_change = scale_denom / m.scale_denominator()
+        # Resize image size
+	m.resize(int(imgx / scale_change), int(imgy / scale_change))
+
     ## render the map to an image
     #im = mapnik.Image(imgx,imgy)
     #mapnik.render(m, im)
