@@ -20,6 +20,10 @@ def usage():
     print('        -6.5,49.5,2.1,59')
     print('    -s <size>, --bounds=<size>')
     print('        Set the resulting image size to <size>, e.g. 1024x1024')
+    print('    -o <file>, --output=<file>')
+    print('        Render the image into the specified file. The image type (png, svg, pdf)')
+    print('        will be recognised from the specified extension,')
+    print('        e.g. image.png (default)')
 
 # Set up projections
 # spherical mercator (most common target map projection of osm data imported with osm2pgsql)
@@ -48,8 +52,11 @@ if __name__ == "__main__":
     imgx = 1024
     imgy = 1024
 
+# Default output file name
+    map_uri = "image.png"
+
     try:
-	opts, args = getopt.getopt(sys.argv[1:], 'm:b:s:', ["map-file=", "bounds=", "size="])
+	opts, args = getopt.getopt(sys.argv[1:], 'm:b:s:o:', ["map-file=", "bounds=", "size=", "output="])
     except getopt.GetoptError as err:
 	print(err)
 	usage()
@@ -64,14 +71,15 @@ if __name__ == "__main__":
 	    a = a.split("x");
 	    imgx = int(a[0]);
 	    imgy = int(a[1]);
+	elif o in ("-o", "--output"):
+	    map_uri = a;
 	else:
 	    usage()
 	    sys.exit()
 
     print("Using map file: " + mapfile)
     print("Using bounds: " + repr(bounds))
-
-    map_uri = "image.png"
+    print("Render into file: " + map_uri)
 
     m = mapnik.Map(imgx,imgy)
     mapnik.load_map(m,mapfile)
@@ -100,21 +108,10 @@ if __name__ == "__main__":
     # Note: aspect_fix_mode is only available in Mapnik >= 0.6.0
     m.zoom_to_box(merc_bbox)
     
-    # render the map to an image
-    im = mapnik.Image(imgx,imgy)
-    mapnik.render(m, im)
-    im.save(map_uri,'png')
-    
-    sys.stdout.write('output image to %s!\n' % map_uri)
-    
-    # Note: instead of creating an image, rendering to it, and then 
-    # saving, we can also do this in one step like:
-    # mapnik.render_to_file(m, map_uri,'png')
-    
-    # And in Mapnik >= 0.7.0 you can also use `render_to_file()` to output
-    # to Cairo supported formats if you have Mapnik built with Cairo support
-    # For example, to render to pdf or svg do:
-    # mapnik.render_to_file(m, "image.pdf")
-    #mapnik.render_to_file(m, "image.svg")
-    
+    ## render the map to an image
+    #im = mapnik.Image(imgx,imgy)
+    #mapnik.render(m, im)
+    #im.save(map_uri,'png')
 
+    # Render file with mapnik.render_to_file()
+    mapnik.render_to_file(m, map_uri)
