@@ -106,10 +106,6 @@ if __name__ == "__main__":
 	    usage()
 	    sys.exit()
 
-    print("Using map file: " + mapfile)
-    print("Using bounds: " + repr(bounds))
-    print("Render into file: " + map_uri)
-
     m = mapnik.Map(imgx,imgy)
     mapnik.load_map(m,mapfile)
     
@@ -159,3 +155,11 @@ if __name__ == "__main__":
 
     # Render file with mapnik.render_to_file()
     mapnik.render_to_file(m, map_uri)
+
+    # Print stats
+    print("Stats:")
+    print("  Using map file: " + mapfile)
+    print("  Using bounds: " + repr(bounds))
+    print("  Scale Denominator: " + str(m.scale_denominator()))
+    print("  Render into file: " + map_uri)
+    print("  Image size: " + str(m.width) + "x" + str(m.height))
