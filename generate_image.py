@@ -6,6 +6,14 @@ except:
     import mapnik
 
 import sys, os
+import getopt
+
+def usage():
+    print('Usage: generate_image.py [<options>]')
+    print
+    print('Options:')
+    print('    -m <file>, --map-file=<file>')
+    print('        Use the specified file as mapnik map file')
 
 # Set up projections
 # spherical mercator (most common target map projection of osm data imported with osm2pgsql)
@@ -21,11 +29,28 @@ if not hasattr(mapnik,'mapnik_version') and not mapnik.mapnik_version() >= 600:
     raise SystemExit('This script requires Mapnik >=0.6.0)')
 
 if __name__ == "__main__":
+# Default mapfile: osm.xml or read from env
     try:
         mapfile = os.environ['MAPNIK_MAP_FILE']
     except KeyError:
         mapfile = "osm.xml"
-    
+
+    try:
+	opts, args = getopt.getopt(sys.argv[1:], 'm:', ["map-file="])
+    except getopt.GetoptError as err:
+	print(err)
+	usage()
+	sys.exit()
+
+    for o, a in opts:
+	if o in ("-m", "--map-file"):
+	    mapfile = a;
+	else:
+	    usage()
+	    sys.exit()
+
+    print("Using map file: " + mapfile)
+
     map_uri = "image.png"
 
     #---------------------------------------------------
