@@ -1,0 +1,27 @@
+Use Mapnik to render an image file. This is an improved version from generate_image.py from the OpenStreetMap SVN:
+http://svn.openstreetmap.org/applications/rendering/mapnik/generate_image.py
+
+Usage: generate_image.py [<options>]
+
+Options:
+    -m <file>, --map-file=<file>
+        Use the specified file as mapnik map file
+    -b <bounding box>, --bounds=<bounding box>
+        Render the map from the specified bounding box as
+        min_lon,min_lat,max_lon,max_lat, e.g.
+        -6.5,49.5,2.1,59
+    -s <size>, --bounds=<size>
+        Set the resulting image size to <size>, e.g. 1024x1024
+    -o <file>, --output=<file>
+        Render the image into the specified file. The image type (png, svg, pdf)
+        will be recognised from the specified extension,
+        e.g. image.png (default)
+    --aspect-fix-mode=[GROW_BBOX|GROW_CANVAS|SHRINK_BBOX|SHRINK_CANVAS]
+        Mapnik internally will fix the aspect ratio of the bounding box to
+        match the target image width and height but it can also change the
+        target image size to match the bounding box. Default: GROW_BBOX
+    --scale=<scale_denominator>
+        Render image at a specified scale denominator. This setting has
+        precedence over the image target size.
+    -h, --help
+        Show usage information
