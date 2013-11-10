@@ -14,6 +14,10 @@ def usage():
     print('Options:')
     print('    -m <file>, --map-file=<file>')
     print('        Use the specified file as mapnik map file')
+    print('    -b <bounding box>, --bounds=<bounding box>')
+    print('        Render the map from the specified bounding box as')
+    print('        min_lon,min_lat,max_lon,max_lat, e.g.')
+    print('        -6.5,49.5,2.1,59')
 
 # Set up projections
 # spherical mercator (most common target map projection of osm data imported with osm2pgsql)
@@ -35,8 +39,11 @@ if __name__ == "__main__":
     except KeyError:
         mapfile = "osm.xml"
 
+# Default bounding box
+    bounds = (-6.5, 49.5, 2.1, 59)
+
     try:
-	opts, args = getopt.getopt(sys.argv[1:], 'm:', ["map-file="])
+	opts, args = getopt.getopt(sys.argv[1:], 'm:b:', ["map-file=", "bounds="])
     except getopt.GetoptError as err:
 	print(err)
 	usage()
@@ -45,19 +52,16 @@ if __name__ == "__main__":
     for o, a in opts:
 	if o in ("-m", "--map-file"):
 	    mapfile = a;
+	elif o in ("-b", "--bounds"):
+	    bounds = map(float, a.split(","))
 	else:
 	    usage()
 	    sys.exit()
 
     print("Using map file: " + mapfile)
+    print("Using bounds: " + repr(bounds))
 
     map_uri = "image.png"
-
-    #---------------------------------------------------
-    #  Change this to the bounding box you want
-    #
-    bounds = (-6.5, 49.5, 2.1, 59)
-    #---------------------------------------------------
 
     z = 10
     imgx = 500 * z
