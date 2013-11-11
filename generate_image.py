@@ -31,6 +31,8 @@ def usage():
     print('    --scale=<scale_denominator>')
     print('        Render image at a specified scale denominator. This setting has')
     print('        precedence over the image target size.')
+    print('    --buffer=<buffer size>')
+    print('        Add a buffer around the image. (default: 0)')
     print('    -h, --help')
     print('        Show usage information')
 
@@ -70,11 +72,14 @@ if __name__ == "__main__":
 # Adapt scale denominator
     scale_denom = 0
 
+# Buffer size
+    buffer_size = 0
+
 #
 # Process parameters
 #
     try:
-	opts, args = getopt.getopt(sys.argv[1:], 'm:b:s:o:h', ["map-file=", "bounds=", "size=", "output=","aspect-fix-mode=","scale=","help"])
+	opts, args = getopt.getopt(sys.argv[1:], 'm:b:s:o:h', ["map-file=", "bounds=", "size=", "output=","aspect-fix-mode=","scale=","buffer=","help"])
     except getopt.GetoptError as err:
 	print(err)
 	usage()
@@ -99,6 +104,8 @@ if __name__ == "__main__":
 		sys.exit()
 	elif o in ("--scale"):
 	    scale_denom = float(a)
+	elif o in ("--buffer"):
+	    buffer_size = int(a)
 	elif o in ("-h", "--help"):
 	    usage()
 	    sys.exit()
@@ -147,6 +154,9 @@ if __name__ == "__main__":
 	scale_change = scale_denom / m.scale_denominator()
         # Resize image size
 	m.resize(int(imgx / scale_change), int(imgy / scale_change))
+
+    # Set the buffer size
+    m.buffer_size = buffer_size;
 
     ## render the map to an image
     #im = mapnik.Image(imgx,imgy)
