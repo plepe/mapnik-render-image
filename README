@@ -23,5 +23,7 @@ Options:
     --scale=<scale_denominator>
         Render image at a specified scale denominator. This setting has
         precedence over the image target size.
+    --buffer=<buffer size>
+        Add a buffer around the image. (default: 0)
     -h, --help
         Show usage information
