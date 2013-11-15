@@ -168,6 +168,7 @@ if __name__ == "__main__":
 
     # Print stats
     print("Stats:")
+    print("  Mapnik version: " + mapnik.mapnik_version_string())
     print("  Using map file: " + mapfile)
     print("  Using bounds: " + repr(bounds))
     print("  Scale Denominator: " + str(m.scale_denominator()))
