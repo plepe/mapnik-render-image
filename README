@@ -1,7 +1,7 @@
 Use Mapnik to render an image file. This is an improved version of generate_image.py from the OpenStreetMap SVN:
 http://svn.openstreetmap.org/applications/rendering/mapnik/generate_image.py
 
-Usage: generate_image.py [<options>]
+Usage: mapnik-render-image [<options>]
 
 Options:
     -m <file>, --map-file=<file>

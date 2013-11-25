@@ -13,7 +13,7 @@ except:
 	sys.exit()
 
 def usage():
-    print('Usage: generate_image.py [<options>]')
+    print('Usage: mapnik-render-image [<options>]')
     print
     print('Options:')
     print('    -m <file>, --map-file=<file>')
