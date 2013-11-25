@@ -13,11 +13,11 @@ except:
 	sys.exit()
 
 def usage():
-    print('Usage: mapnik-render-image [<options>]')
+    print('Usage: mapnik-render-image [<options>] <map-file>')
+    print
+    print('Uses Mapnik to render an image using the specified map file.')
     print
     print('Options:')
-    print('    -m <file>, --map-file=<file>')
-    print('        Use the specified file as mapnik map file')
     print('    -b <bounding box>, --bounds=<bounding box>')
     print('        Render the map from the specified bounding box as')
     print('        min_lon,min_lat,max_lon,max_lat, e.g.')
@@ -58,12 +58,6 @@ if not hasattr(mapnik,'mapnik_version') and not mapnik.mapnik_version() >= 600:
     raise SystemExit('This script requires Mapnik >=0.6.0)')
 
 if __name__ == "__main__":
-# Default mapfile: osm.xml or read from env
-    try:
-        mapfile = os.environ['MAPNIK_MAP_FILE']
-    except KeyError:
-        mapfile = "osm.xml"
-
 # Default bounding box
     bounds = (-6.5, 49.5, 2.1, 59)
 
@@ -89,16 +83,14 @@ if __name__ == "__main__":
 # Process parameters
 #
     try:
-	opts, args = getopt.getopt(sys.argv[1:], 'm:b:s:o:h', ["map-file=", "bounds=", "size=", "output=","aspect-fix-mode=","scale=","buffer=","image-type=","help"])
+	opts, args = getopt.getopt(sys.argv[1:], 'b:s:o:h', ["bounds=", "size=", "output=","aspect-fix-mode=","scale=","buffer=","image-type=","help"])
     except getopt.GetoptError as err:
 	print(err)
 	usage()
 	sys.exit()
 
     for o, a in opts:
-	if o in ("-m", "--map-file"):
-	    mapfile = a;
-	elif o in ("-b", "--bounds"):
+	if o in ("-b", "--bounds"):
 	    bounds = map(float, a.split(","))
 	elif o in ("-s", "--size"):
 	    a = a.split("x");
@@ -124,6 +116,14 @@ if __name__ == "__main__":
 	else:
 	    usage()
 	    sys.exit()
+
+# check if a map file has been specified
+    if len(args):
+	mapfile = args[0]
+    else:
+	print('Error: No map file specified')
+	usage()
+	sys.exit()
 
     m = mapnik.Map(imgx,imgy)
     mapnik.load_map(m,mapfile)

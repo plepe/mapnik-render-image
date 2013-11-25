@@ -1,11 +1,11 @@
 Use Mapnik to render an image file. This is an improved version of generate_image.py from the OpenStreetMap SVN:
 http://svn.openstreetmap.org/applications/rendering/mapnik/generate_image.py
 
-Usage: mapnik-render-image [<options>]
+Usage: mapnik-render-image [<options>] <map-file>
+
+Uses Mapnik to render an image using the specified map file.
 
 Options:
-    -m <file>, --map-file=<file>
-        Use the specified file as mapnik map file
     -b <bounding box>, --bounds=<bounding box>
         Render the map from the specified bounding box as
         min_lon,min_lat,max_lon,max_lat, e.g.
