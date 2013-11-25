@@ -11,10 +11,13 @@ contribute back. This is free software!
 
 Installation
 ------------
+```sh
 make install
+```
 
 Usage
 -----
+```
 Usage: mapnik-render-image [<options>] <map-file>
 
 Uses Mapnik to render an image using the specified map file.
@@ -45,3 +48,4 @@ Options:
         of available formats.
     -h, --help
         Show usage information
+```
