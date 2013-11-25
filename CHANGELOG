@@ -1,0 +1,24 @@
+2013-11-25	version 0.3
+- renamed script from generate_image.py to mapnik-render-image
+- instead of parameter --map-file (resp. -m) accept map file as argument
+- add more parameters:
+  --image-type
+  --buffer
+- After finishing script print stats
+- add Makefile (for system-wide installation)
+- bugfixes
+
+2013-11-10	version 0.2
+- import generate_image.py from OpenStreetMap Subversion
+- Some general restructuring
+- Add parameters to influence behaviour:
+  --map-file (-m)
+  --bounds (-b)
+  --size (-s)
+  --output (-o)
+  --aspect-fix-mode
+  --scale
+  --help (-h)
+
+2011-07-07	version 0.1
+- original generate_image.py on OpenStreetMap SVN
