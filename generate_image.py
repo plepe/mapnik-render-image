@@ -33,6 +33,10 @@ def usage():
     print('        precedence over the image target size.')
     print('    --buffer=<buffer size>')
     print('        Add a buffer around the image. (default: 0)')
+    print('    --image-type=<type>')
+    print('        Specify a specific image type, e.g. "png8".')
+    print('        See https://github.com/mapnik/mapnik/wiki/OutputFormats for a list')
+    print('        of available formats.')
     print('    -h, --help')
     print('        Show usage information')
 
@@ -75,11 +79,13 @@ if __name__ == "__main__":
 # Buffer size
     buffer_size = 0
 
+# Image type
+    image_type = None
 #
 # Process parameters
 #
     try:
-	opts, args = getopt.getopt(sys.argv[1:], 'm:b:s:o:h', ["map-file=", "bounds=", "size=", "output=","aspect-fix-mode=","scale=","buffer=","help"])
+	opts, args = getopt.getopt(sys.argv[1:], 'm:b:s:o:h', ["map-file=", "bounds=", "size=", "output=","aspect-fix-mode=","scale=","buffer=","image-type=","help"])
     except getopt.GetoptError as err:
 	print(err)
 	usage()
@@ -106,6 +112,8 @@ if __name__ == "__main__":
 	    scale_denom = float(a)
 	elif o in ("--buffer"):
 	    buffer_size = int(a)
+	elif o in ("--image-type"):
+	    image_type = a
 	elif o in ("-h", "--help"):
 	    usage()
 	    sys.exit()
@@ -164,7 +172,10 @@ if __name__ == "__main__":
     #im.save(map_uri,'png')
 
     # Render file with mapnik.render_to_file()
-    mapnik.render_to_file(m, map_uri)
+    if image_type == None:
+	mapnik.render_to_file(m, map_uri)
+    else:
+	mapnik.render_to_file(m, map_uri, image_type)
 
     # Print stats
     print("Stats:")

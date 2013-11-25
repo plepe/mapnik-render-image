@@ -25,5 +25,9 @@ Options:
         precedence over the image target size.
     --buffer=<buffer size>
         Add a buffer around the image. (default: 0)
+    --image-type=<type>
+        Specify a specific image type, e.g. "png8".
+        See https://github.com/mapnik/mapnik/wiki/OutputFormats for a list
+        of available formats.
     -h, --help
         Show usage information
