@@ -22,7 +22,7 @@ def usage():
     print('        Render the map from the specified bounding box as')
     print('        min_lon,min_lat,max_lon,max_lat, e.g.')
     print('        -6.5,49.5,2.1,59')
-    print('    -s <size>, --bounds=<size>')
+    print('    -s <size>, --size=<size>')
     print('        Set the resulting image size to <size>, e.g. 1024x1024')
     print('    -o <file>, --output=<file>')
     print('        Render the image into the specified file. The image type (png, svg, pdf)')

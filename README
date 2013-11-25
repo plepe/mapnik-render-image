@@ -10,7 +10,7 @@ Options:
         Render the map from the specified bounding box as
         min_lon,min_lat,max_lon,max_lat, e.g.
         -6.5,49.5,2.1,59
-    -s <size>, --bounds=<size>
+    -s <size>, --size=<size>
         Set the resulting image size to <size>, e.g. 1024x1024
     -o <file>, --output=<file>
         Render the image into the specified file. The image type (png, svg, pdf)
