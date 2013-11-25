@@ -1,6 +1,20 @@
-Use Mapnik to render an image file. This is an improved version of generate_image.py from the OpenStreetMap SVN:
+mapnik-render-image
+===================
+Use Mapnik to render an image file. It is being developed on Github:
+https://github.com/plepe/mapnik-render-image
+
+This is an improved version of generate_image.py from the OpenStreetMap SVN:
 http://svn.openstreetmap.org/applications/rendering/mapnik/generate_image.py
 
+Feel invited to fork the repository, improve the code base and finally
+contribute back. This is free software!
+
+Installation
+------------
+make install
+
+Usage
+-----
 Usage: mapnik-render-image [<options>] <map-file>
 
 Uses Mapnik to render an image using the specified map file.
