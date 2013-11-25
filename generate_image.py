@@ -1,12 +1,16 @@
 #!/usr/bin/env python
 
-try:
-    import mapnik2 as mapnik
-except:
-    import mapnik
-
 import sys, os
 import getopt
+
+try:
+    import mapnik
+except:
+    try:
+	import mapnik2 as mapnik
+    except:
+	print('Error: Need to have Mapnik installed, with python bindings enabled.')
+	sys.exit()
 
 def usage():
     print('Usage: generate_image.py [<options>]')
