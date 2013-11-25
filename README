@@ -26,8 +26,8 @@ Options:
     --buffer=<buffer size>
         Add a buffer around the image. (default: 0)
     --image-type=<type>
-        Specify a specific image type, e.g. "png8".
-        See https://github.com/mapnik/mapnik/wiki/OutputFormats for a list
+        Specify a specific image type, e.g. "jpeg85" or "png8:c=128".
+        See https://github.com/mapnik/mapnik/wiki/Image-IO for a list
         of available formats.
     -h, --help
         Show usage information
