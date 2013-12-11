@@ -37,9 +37,10 @@ Options:
         Mapnik internally will fix the aspect ratio of the bounding box to
         match the target image width and height but it can also change the
         target image size to match the bounding box. Default: GROW_BBOX
-    --scale=<scale_denominator>
-        Render image at a specified scale denominator. This setting has
-        precedence over the image target size.
+    --scale=<scale_denominator>|z<zoom>
+        Render image at a specified scale denominator. If z<zoom> syntax
+        (e.g. "z15") is used, the zoom levels of projection 900913 are used.
+        This setting has precedence over the image target size.
     --buffer=<buffer size>
         Add a buffer around the image. (default: 0)
     --image-type=<type>

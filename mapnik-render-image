@@ -32,9 +32,10 @@ def usage():
     print('        Mapnik internally will fix the aspect ratio of the bounding box to')
     print('        match the target image width and height but it can also change the')
     print('        target image size to match the bounding box. Default: GROW_BBOX')
-    print('    --scale=<scale_denominator>')
-    print('        Render image at a specified scale denominator. This setting has')
-    print('        precedence over the image target size.')
+    print('    --scale=<scale_denominator>|z<zoom>')
+    print('        Render image at a specified scale denominator. If z<zoom> syntax')
+    print('        (e.g. "z15") is used, the zoom levels of projection 900913 are used.')
+    print('        This setting has precedence over the image target size.')
     print('    --buffer=<buffer size>')
     print('        Add a buffer around the image. (default: 0)')
     print('    --image-type=<type>')
@@ -105,7 +106,10 @@ if __name__ == "__main__":
 		usage()
 		sys.exit()
 	elif o in ("--scale"):
-	    scale_denom = float(a)
+            if a[0] == 'z':
+                scale_denom = 559082264.028 / (2 ** int(a[1:]))
+            else:
+                scale_denom = float(a)
 	elif o in ("--buffer"):
 	    buffer_size = int(a)
 	elif o in ("--image-type"):
