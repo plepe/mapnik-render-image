@@ -167,9 +167,9 @@ if __name__ == "__main__":
     # If a scale denominator is specified
     if scale_denom:
         # Get current scale denom, calculate necessary change
-	scale_change = scale_denom / m.scale_denominator()
+        scale_change = scale_denom / m.scale_denominator()
         # Resize image size
-	m.resize(int(imgx / scale_change), int(imgy / scale_change))
+        m.zoom(scale_change)
 
     # Set the buffer size
     m.buffer_size = buffer_size;
