@@ -24,6 +24,8 @@ def usage():
     print('        -6.5,49.5,2.1,59')
     print('    -s <size>, --size=<size>')
     print('        Set the resulting image size to <size>, e.g. 1024x1024')
+    print('    --size-unit=[px|cm]')
+    print('        Unit for the --size parameter. Defaults to \'px\'.')
     print('    -o <file>, --output=<file>')
     print('        Render the image into the specified file. The image type (png, svg, pdf)')
     print('        will be recognised from the specified extension,')
@@ -80,11 +82,18 @@ if __name__ == "__main__":
 
 # Image type
     image_type = None
+
+# Size Unit
+    size_unit = 'px'
+    size_units = {
+        'px': 1.0,
+        'cm': 0.0353,
+    }
 #
 # Process parameters
 #
     try:
-	opts, args = getopt.getopt(sys.argv[1:], 'b:s:o:h', ["bounds=", "size=", "output=","aspect-fix-mode=","scale=","buffer=","image-type=","help"])
+	opts, args = getopt.getopt(sys.argv[1:], 'b:s:o:h', ["bounds=", "size=", "size-unit=", "output=","aspect-fix-mode=","scale=","buffer=","image-type=","help"])
     except getopt.GetoptError as err:
 	print(err)
 	usage()
@@ -95,8 +104,14 @@ if __name__ == "__main__":
 	    bounds = map(float, a.split(","))
 	elif o in ("-s", "--size"):
 	    a = a.split("x");
-	    imgx = int(a[0]);
-	    imgy = int(a[1]);
+	    imgx = float(a[0]);
+	    imgy = float(a[1]);
+	elif o in ("--size-unit"):
+            if not a in size_units:
+                print('Size unit "{}" not known!'.format(a))
+                sys.exit
+
+	    size_unit = a
 	elif o in ("-o", "--output"):
 	    map_uri = a;
 	elif o in ("--aspect-fix-mode"):
@@ -120,6 +135,9 @@ if __name__ == "__main__":
 	else:
 	    usage()
 	    sys.exit()
+
+    imgx = int(round(float(imgx) / size_units[size_unit]))
+    imgy = int(round(float(imgy) / size_units[size_unit]))
 
 # check if a map file has been specified
     if len(args):
